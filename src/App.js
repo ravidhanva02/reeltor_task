@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Signup from "./Component/Signup";
+import Dashboard from "./Component/Dashboard";
 
-function App() {
+export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [darkMode, setDarkMode] = useState(false); // Dark Mode State
+
+  const handleToggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={darkMode ? "dark" : ""}>
+      <div className="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
+        <header className="flex justify-between p-4 shadow-md bg-white dark:bg-gray-800">
+          <h1 className="text-xl font-bold">Realtor App</h1>
+          <button
+            onClick={handleToggleDarkMode}
+            className="bg-blue-500 dark:bg-gray-700 text-white py-2 px-4 rounded-lg hover:bg-blue-600 dark:hover:bg-gray-600"
+          >
+            {darkMode ? "Light Mode" : "Dark Mode"}
+          </button>
+        </header>
+
+        {isLoggedIn ? (
+          <Dashboard handleLogout={() => setIsLoggedIn(false)} />
+        ) : (
+          <Signup setIsLoggedIn={setIsLoggedIn} />
+        )}
+      </div>
     </div>
   );
 }
-
-export default App;
